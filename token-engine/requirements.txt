@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pydantic
+tiktoken
+sentence-transformers
+faiss-cpu
+tree-sitter
+python-multipart
+numpy
