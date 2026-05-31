@@ -6,6 +6,8 @@ from app.chunking.chunker import chunk_text
 from app.embeddings.embedder import embed_text
 from app.ranking.scorer import cosine_similarity
 from app.compression.selector import select_chunks_by_budget
+from app.compression.context_builder import build_context
+from app.compression.deduplicator import remove_duplicates
 
 router = APIRouter()
 
@@ -63,6 +65,16 @@ def optimize_context(data: OptimizeRequest):
     ranked_chunks,
     data.max_context_tokens
 )
+    before_dedup = len(selected_chunks)
+
+    selected_chunks = remove_duplicates(selected_chunks)
+
+    after_dedup = len(selected_chunks)
+    tokens_after = sum(
+    count_tokens(chunk["content"])
+    for chunk in selected_chunks
+)
+    optimized_context = build_context(selected_chunks)
 
     return {
     "task": data.agent_task,
@@ -70,17 +82,19 @@ def optimize_context(data: OptimizeRequest):
     "metrics": {
         "files_received": len(data.files),
         "tokens_before": total_tokens,
-        "tokens_after": used_tokens,
+        "tokens_after": tokens_after,
         "token_reduction_percent": round(
-            ((total_tokens - used_tokens) / total_tokens) * 100,
+            ((total_tokens - tokens_after) / total_tokens) * 100,
             2
         ) if total_tokens > 0 else 0,
         "chunks_created": len(all_chunks),
         "chunks_selected": len(selected_chunks)
     },
 
-    "selected_context": [
-        chunk["content"]
-        for chunk in selected_chunks
-    ]
+    "debug": {
+    "before_dedup": before_dedup,
+    "after_dedup": after_dedup
+},
+
+    "optimized_context": optimized_context
 }
