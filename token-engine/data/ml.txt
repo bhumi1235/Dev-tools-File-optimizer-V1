@@ -1,0 +1,6 @@
+Machine Learning Basics
+
+Machine learning models are trained using datasets. 
+Neural networks learn patterns through backpropagation and gradient descent. 
+Classification algorithms predict categories while regression models predict numerical values. 
+Model performance is evaluated using accuracy, precision, recall, and F1 score.

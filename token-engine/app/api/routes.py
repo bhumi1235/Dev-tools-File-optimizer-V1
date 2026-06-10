@@ -8,13 +8,15 @@ from app.ranking.scorer import cosine_similarity
 from app.compression.selector import select_chunks_by_budget
 from app.compression.context_builder import build_context
 from app.compression.deduplicator import remove_duplicates
+from app.ingestion.file_reader import read_file
+from app.chunking.markdown_chunker import chunk_markdown
+import time
 
 router = APIRouter()
 
 
 class FileData(BaseModel):
-    filename: str
-    content: str
+    file_path: str
     type: str
 
 
@@ -26,15 +28,24 @@ class OptimizeRequest(BaseModel):
 
 @router.post("/optimize-context")
 def optimize_context(data: OptimizeRequest):
-
+    start_time = time.time()
     total_tokens = 0
     all_chunks = []
 
     for file in data.files:
 
-        total_tokens += count_tokens(file.content)
+        print("Reading:", file.file_path)
 
-        chunks = chunk_text(file.content)
+        content = read_file(file.file_path)
+
+        print("Content loaded:", len(content))
+
+        total_tokens += count_tokens(content)
+
+        if file.type == "md":
+            chunks = chunk_markdown(content)
+        else:
+            chunks = chunk_text(content)
 
         all_chunks.extend(chunks)
 
@@ -44,17 +55,29 @@ def optimize_context(data: OptimizeRequest):
 
     for chunk in all_chunks:
 
-        chunk_embedding = embed_text(chunk)
+     if isinstance(chunk, dict):
 
-        score = cosine_similarity(
-            query_embedding,
-            chunk_embedding
-        )
+        chunk_content = chunk["content"]
 
-        ranked_chunks.append({
-            "content": chunk,
-            "score": float(score)
-        })
+        heading = chunk["heading"]
+
+     else:
+
+        chunk_content = chunk
+
+        heading = None
+
+     chunk_embedding = embed_text(chunk_content)
+
+     score = cosine_similarity(
+        query_embedding,
+        chunk_embedding
+     )
+     ranked_chunks.append({
+        "heading": heading,
+        "content": chunk_content,
+        "score": float(score)
+    })
 
     ranked_chunks.sort(
         key=lambda x: x["score"],
@@ -76,8 +99,14 @@ def optimize_context(data: OptimizeRequest):
 )
     optimized_context = build_context(selected_chunks)
 
+    execution_time_ms = round(
+    (time.time() - start_time) * 1000,
+    2
+)
+
     return {
-    "task": data.agent_task,
+        
+        "task": data.agent_task,
 
     "metrics": {
         "files_received": len(data.files),
@@ -88,13 +117,15 @@ def optimize_context(data: OptimizeRequest):
             2
         ) if total_tokens > 0 else 0,
         "chunks_created": len(all_chunks),
-        "chunks_selected": len(selected_chunks)
+        "chunks_selected": len(selected_chunks),
+        "execution_time_ms": execution_time_ms
     },
 
     "debug": {
     "before_dedup": before_dedup,
     "after_dedup": after_dedup
 },
+    "top_chunks": ranked_chunks[:5],
 
     "optimized_context": optimized_context
 }
