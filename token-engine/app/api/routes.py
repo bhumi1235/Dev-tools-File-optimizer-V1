@@ -10,6 +10,7 @@ from app.compression.context_builder import build_context
 from app.compression.deduplicator import remove_duplicates
 from app.ingestion.file_reader import read_file
 from app.chunking.markdown_chunker import chunk_markdown
+from app.ingestion.pdf_reader import read_pdf
 import time
 
 router = APIRouter()
@@ -36,7 +37,10 @@ def optimize_context(data: OptimizeRequest):
 
         print("Reading:", file.file_path)
 
-        content = read_file(file.file_path)
+        if file.type == "pdf":
+            content = read_pdf(file.file_path)
+        else:
+            content = read_file(file.file_path)
 
         print("Content loaded:", len(content))
 
