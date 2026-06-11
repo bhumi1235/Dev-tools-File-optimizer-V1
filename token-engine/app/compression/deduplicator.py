@@ -1,6 +1,6 @@
 from app.embeddings.embedder import embed_text
 from app.ranking.scorer import cosine_similarity
-
+from app.config import SIMILARITY_THRESHOLD
 
 def remove_duplicates(selected_chunks):
 
@@ -8,7 +8,7 @@ def remove_duplicates(selected_chunks):
 
     embeddings = []
 
-    threshold = 0.9
+    threshold = SIMILARITY_THRESHOLD
 
     for chunk in selected_chunks:
 

@@ -1,7 +1,8 @@
 import re
+from app.config import MAX_CHUNK_WORDS, OVERLAP_SENTENCES
 
 
-def chunk_text(text: str, max_words: int = 35, overlap_sentences: int = 1):
+def chunk_text(text: str, max_words: int = MAX_CHUNK_WORDS, overlap_sentences: int = OVERLAP_SENTENCES):
 
     text = re.sub(r'\s+', ' ', text).strip()
 
@@ -48,5 +49,7 @@ def chunk_text(text: str, max_words: int = 35, overlap_sentences: int = 1):
         chunks.append(
             " ".join(current_chunk)
         )
+
+  
 
     return chunks
