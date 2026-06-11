@@ -51,7 +51,24 @@ def optimize_context(data: OptimizeRequest):
         else:
             chunks = chunk_text(content)
 
-        all_chunks.extend(chunks)
+        for chunk in chunks:
+
+            if isinstance(chunk, dict):
+
+                chunk["source_file"] = file.file_path
+
+                chunk["source_type"] = file.type
+
+                all_chunks.append(chunk)
+
+            else:
+
+                all_chunks.append({
+            "heading": None,
+            "content": chunk,
+            "source_file": file.file_path,
+            "source_type": file.type
+        })
 
     query_embedding = embed_text(data.agent_task)
 
