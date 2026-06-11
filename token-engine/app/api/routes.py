@@ -6,7 +6,7 @@ import time
 from app.utils.token_counter import count_tokens
 from app.chunking.chunker import chunk_text
 from app.chunking.markdown_chunker import chunk_markdown
-
+from app.utils.logger import logger
 from app.ingestion.file_reader import read_file
 from app.ingestion.pdf_reader import read_pdf
 from fastapi import HTTPException
@@ -52,7 +52,9 @@ def optimize_context(data: OptimizeRequest):
 
     for file in data.files:
 
-        print("Reading:", file.file_path)
+        logger.info(
+             f"Reading file: {file.file_path}"
+        )
 
         try:
 
@@ -70,12 +72,20 @@ def optimize_context(data: OptimizeRequest):
 
         except FileNotFoundError:
 
+            logger.error(
+        f"File not found: {file.file_path}"
+    )
+
             raise HTTPException(
         status_code=404,
         detail=f"File not found: {file.file_path}"
     )
 
         except Exception as e:
+
+            logger.error(
+        str(e)
+    )
 
             raise HTTPException(
         status_code=500,
@@ -194,6 +204,10 @@ def optimize_context(data: OptimizeRequest):
         (time.time() - start_time) * 1000,
         2
     )
+
+    logger.info(
+    f"Optimization completed in {execution_time_ms} ms"
+)
 
     return {
 
