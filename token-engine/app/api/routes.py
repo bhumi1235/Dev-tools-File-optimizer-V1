@@ -189,16 +189,13 @@ def optimize_context(data: OptimizeRequest):
 
     after_dedup = len(selected_chunks)
 
-    tokens_after = sum(
-        count_tokens(
-            chunk["content"]
-        )
-        for chunk in selected_chunks
-    )
-
     optimized_context = build_context(
         selected_chunks
     )
+
+    tokens_after = count_tokens(
+    optimized_context
+)
 
     execution_time_ms = round(
         (time.time() - start_time) * 1000,

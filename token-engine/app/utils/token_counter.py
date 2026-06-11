@@ -1,7 +1,24 @@
+import re
 import tiktoken
 
-encoding = tiktoken.get_encoding("cl100k_base")
+encoder = tiktoken.get_encoding("cl100k_base")
 
+def count_tokens(text):
 
-def count_tokens(text: str) -> int:
-    return len(encoding.encode(text))
+    # Remove source tags
+    text = re.sub(
+        r'\[Source:.*?\]',
+        '',
+        text
+    )
+
+    # Normalize whitespace
+    text = re.sub(
+        r'\s+',
+        ' ',
+        text
+    ).strip()
+
+    return len(
+        encoder.encode(text)
+    )

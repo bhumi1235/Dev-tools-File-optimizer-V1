@@ -1,3 +1,6 @@
+import re
+
+
 def build_context(selected_chunks):
 
     source_groups = {}
@@ -32,9 +35,44 @@ def build_context(selected_chunks):
 
     for source, blocks in source_groups.items():
 
+        seen_sentences = set()
+
+        cleaned_sentences = []
+
+        for block in blocks:
+
+            sentences = re.split(
+                r'(?<=[.!?])\s+',
+                block
+            )
+
+            for sentence in sentences:
+
+                sentence = sentence.strip()
+
+                if (
+                    sentence
+                    and sentence not in seen_sentences
+                ):
+
+                    seen_sentences.add(
+                        sentence
+                    )
+
+                    cleaned_sentences.append(
+                        sentence
+                    )
+
         context.append(
+
             f"[Source: {source}]\n\n"
-            + "\n\n".join(blocks)
+
+            + "\n\n".join(
+                cleaned_sentences
+            )
+
         )
 
-    return "\n\n".join(context)
+    return "\n\n".join(
+        context
+    )
