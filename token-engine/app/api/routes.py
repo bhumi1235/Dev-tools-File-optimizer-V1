@@ -9,7 +9,7 @@ from app.chunking.markdown_chunker import chunk_markdown
 
 from app.ingestion.file_reader import read_file
 from app.ingestion.pdf_reader import read_pdf
-
+from fastapi import HTTPException
 from app.embeddings.embedder import embed_text
 from app.ranking.scorer import cosine_similarity
 from app.chunking.code_chunker import chunk_python_code
@@ -37,6 +37,13 @@ class OptimizeRequest(BaseModel):
 @router.post("/file_opt")
 def optimize_context(data: OptimizeRequest):
 
+    if data.max_context_tokens <= 0:
+
+        raise HTTPException(
+        status_code=400,
+        detail="max_context_tokens must be positive"
+    )
+
     start_time = time.time()
 
     total_tokens = 0
@@ -47,24 +54,60 @@ def optimize_context(data: OptimizeRequest):
 
         print("Reading:", file.file_path)
 
-        if file.type == "pdf":
-            content = read_pdf(file.file_path)
-        else:
-            content = read_file(file.file_path)
+        try:
+
+            if file.type == "pdf":
+
+                content = read_pdf(
+            file.file_path
+        )
+
+            else:
+
+                content = read_file(
+            file.file_path
+            )
+
+        except FileNotFoundError:
+
+            raise HTTPException(
+        status_code=404,
+        detail=f"File not found: {file.file_path}"
+    )
+
+        except Exception as e:
+
+            raise HTTPException(
+        status_code=500,
+        detail=str(e)
+    )
+        if not content.strip():
+
+            raise HTTPException(
+        status_code=400,
+        detail=f"Empty file: {file.file_path}"
+    )
 
         total_tokens += count_tokens(content)
 
         if file.type == "md":
 
-            chunks = chunk_markdown(content)
+         chunks = chunk_markdown(content)
 
         elif file.type == "py":
 
             chunks = chunk_python_code(content)
 
-        else:
+        elif file.type in ["txt", "pdf"]:
 
             chunks = chunk_text(content)
+
+        else:
+
+            raise HTTPException(
+        status_code=400,
+        detail=f"Unsupported file type: {file.type}"
+    )
 
         file_chunks = []
 
