@@ -1,0 +1,27 @@
+Database Systems
+
+Databases store and retrieve structured information efficiently. Tables organize records into rows and columns. Relational databases use SQL to query information.
+
+Indexes
+
+Indexes improve query performance by reducing search time. Proper indexing strategies are essential for large datasets. Composite indexes can optimize multiple conditions.
+
+Transactions
+
+Transactions ensure consistency and reliability. ACID properties guarantee atomicity, consistency, isolation and durability. Rollbacks restore the previous state when failures occur.
+
+Connection Pools
+
+Applications use connection pools to manage database resources. Reusing connections improves performance and reduces latency.
+
+Query Optimization
+
+Execution plans help developers understand query behavior. Normalization reduces redundancy while denormalization improves read performance.
+
+Machine Learning
+
+Neural networks are trained using gradient descent. Classification models predict categories and regression models predict numerical values.
+
+Authentication
+
+JWT tokens provide stateless authentication. Password hashing improves security. Middleware validates access tokens.

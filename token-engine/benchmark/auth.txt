@@ -1,0 +1,23 @@
+Authentication Systems
+
+Modern applications use authentication to verify user identity. The login service validates email and password combinations submitted by users. After successful verification, a JWT access token is generated and returned to the client. Middleware checks token validity before granting access to protected routes.
+
+Password Security
+
+Passwords should never be stored in plain text. They are hashed using bcrypt or Argon2 before being written to the database. Authentication failures result in HTTP 401 responses and prevent unauthorized access. Refresh tokens allow users to obtain new access tokens without logging in again.
+
+Session Management
+
+Session expiration is controlled using token expiry timestamps. Short-lived access tokens improve security. Long-lived refresh tokens improve user experience. Logout operations invalidate active sessions.
+
+Role-Based Access Control
+
+Admin users have elevated privileges and can manage resources. Standard users can only access their own information. Unauthorized requests return HTTP 403 responses.
+
+Machine Learning Basics
+
+Machine learning models are trained on datasets. Neural networks use backpropagation and gradient descent to learn patterns. Accuracy, precision and recall are common evaluation metrics.
+
+Database Optimization
+
+Indexes improve query speed. Transactions maintain consistency and prevent corruption. Connection pools help manage database connections efficiently.

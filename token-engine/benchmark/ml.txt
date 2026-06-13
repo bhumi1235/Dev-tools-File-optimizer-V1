@@ -1,0 +1,23 @@
+Machine Learning Fundamentals
+
+Machine learning systems are trained using labeled datasets. Supervised learning algorithms learn relationships between input features and target values. Classification models predict categories while regression models predict numerical values.
+
+Neural Networks
+
+Neural networks consist of layers of interconnected neurons. During training, weights are adjusted using backpropagation. Gradient descent minimizes loss functions and improves model accuracy. Activation functions introduce non-linearity into the network.
+
+Evaluation Metrics
+
+Accuracy measures the percentage of correct predictions. Precision and recall are useful for imbalanced datasets. F1 score combines precision and recall into a single metric.
+
+Deep Learning
+
+Convolutional neural networks are commonly used in computer vision tasks. Recurrent neural networks process sequential information. Transformers have become dominant in natural language processing.
+
+Authentication Systems
+
+JWT tokens are used for stateless authentication. Passwords are hashed using bcrypt before storage. Middleware validates access tokens.
+
+Database Concepts
+
+Indexes improve query performance. Transactions ensure data consistency and reliability.

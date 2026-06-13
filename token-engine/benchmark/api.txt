@@ -1,0 +1,27 @@
+REST APIs
+
+REST APIs enable communication between applications. Clients send HTTP requests to servers and receive structured responses. JSON is commonly used as the data exchange format.
+
+HTTP Methods
+
+GET requests retrieve information. POST requests create resources. PUT requests update existing data. DELETE requests remove resources.
+
+Status Codes
+
+HTTP 200 indicates successful operations. HTTP 201 represents resource creation. HTTP 400 indicates bad requests. HTTP 401 represents authentication failures. HTTP 403 indicates forbidden access. HTTP 500 signals server-side errors.
+
+Authentication
+
+JWT tokens are commonly used for securing APIs. Middleware validates tokens before processing requests. Refresh tokens improve user experience.
+
+Rate Limiting
+
+Rate limiting prevents abuse and protects server resources. API gateways enforce usage quotas and request limits.
+
+Machine Learning
+
+Neural networks learn patterns using gradient descent. Accuracy and recall are used to evaluate model performance.
+
+Database Systems
+
+Indexes improve query speed. Transactions maintain consistency and prevent corruption.
