@@ -1,0 +1,11 @@
+{
+  "agent_task": "authentication logic",
+  "target_compression_ratio": 0.3,
+  "max_context_tokens": 100,
+  "files": [
+    {
+      "file_path": "benchmark/auth.py",
+      "type": "py"
+    }
+  ]
+}
