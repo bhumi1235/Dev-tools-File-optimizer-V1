@@ -1,162 +1,248 @@
-﻿# Dev-tools-File-optimizer-V1
-# Token Engine
+﻿# File Optimizer
 
-Context optimization infrastructure for AI workflows.
+> Semantic context compression for AI agents and LLM applications.
 
-Token Engine intelligently reduces token usage across multiple uploaded files while preserving semantic relevance, structural relationships, and query-specific context.
+File Optimizer is a lightweight, task-aware context optimization engine that reduces token consumption while preserving the information that actually matters.
 
-Instead of blindly summarizing everything, the system prioritizes high-information-density content and compresses low-value sections dynamically.
+Instead of blindly truncating files or relying on keyword matching, File Optimizer performs semantic chunking, relevance ranking, token budgeting, and intelligent context construction to deliver compact and meaningful context to language models.
+
+Built for modern AI systems, File Optimizer helps agents spend fewer tokens, lower costs, and maintain high-quality responses.
 
 ---
 
-# Problem
+## Why File Optimizer?
 
-Modern LLM workflows often break when users upload:
+Large Language Models are powerful, but context windows are expensive.
 
-* multiple lecture notes
-* research papers
-* code files
-* documentation
-* PDFs
+Most applications send entire files, documentation, notes, or codebases to an LLM—even when only a small fraction is relevant.
 
-Large context windows are expensive and inefficient.
+File Optimizer solves this problem.
 
-Traditional summarization approaches:
+### Traditional Approach
 
-* compress everything equally
-* destroy important relationships
-* remove query-relevant information
-* reduce reasoning quality
+```
+Files
+ ↓
+Entire Context
+ ↓
+LLM
+ ↓
+High Cost
+```
 
-Token Engine solves this using:
+### File Optimizer Approach
 
-* semantic chunking
-* query-aware relevance scoring
-* adaptive compression
-* intelligent context construction
+```
+Files
+ ↓
+File Optimizer
+ ↓
+Relevant Context
+ ↓
+LLM
+ ↓
+Lower Cost + Better Focus
+```
 
 ---
 
 # Features
 
-* Multi-file ingestion
-* Token usage analysis
-* Semantic chunking
-* Query-aware processing
-* Relevance scoring
-* Intelligent context optimization
-* Compression ratio targeting
-* AI-agent compatible architecture
+### Semantic Context Compression
+
+Reduce unnecessary context while preserving task-relevant information.
+
+### Multi-Format Support
+
+Supports:
+
+* TXT files
+* PDF documents
+* Markdown files
+* Python source files
+
+Additional formats are planned for future versions.
 
 ---
 
-# Current Pipeline
+### Task-Aware Retrieval
 
-```text
-FILES
- ↓
-TOKEN COUNTING
- ↓
-SEMANTIC CHUNKING
- ↓
-EMBEDDINGS
- ↓
-RELEVANCE SCORING
- ↓
-COMPRESSION
- ↓
-OPTIMIZED CONTEXT
+Optimize context according to the agent's objective:
+
+* Authentication logic
+* Database transactions
+* Machine learning concepts
+* API documentation
+* Research tasks
+* Technical notes
+
+---
+
+### Token Budget Management
+
+Control how much context is sent to the LLM.
+
+Prevent unnecessary token usage and reduce inference costs.
+
+---
+
+### Chunk Deduplication
+
+Removes repeated information and overlapping chunks.
+
+---
+
+### Docker Support
+
+Deploy anywhere with reproducible environments.
+
+---
+
+### Modular Architecture
+
+Each component is independent and can be extended separately.
+
+* Ingestion
+* Chunking
+* Embeddings
+* Ranking
+* Budget Selection
+* Deduplication
+* Context Building
+
+---
+
+### Lightweight
+
+No vector databases.
+
+No heavy infrastructure.
+
+No complex setup.
+
+Simple API.
+
+---
+
+# Architecture
+
+```
+Input Files
+      │
+      ▼
+File Ingestion
+      │
+      ▼
+Chunking Engine
+      │
+      ▼
+Embeddings
+      │
+      ▼
+Semantic Ranking
+      │
+      ▼
+Token Budget Selection
+      │
+      ▼
+Deduplication
+      │
+      ▼
+Optimized Context
 ```
 
 ---
 
-# Example Use Cases
+# Supported File Formats
 
-## Students
-
-Upload:
-
-* lecture notes
-* PYQs
-* PDFs
-
-Generate:
-
-* exam-focused optimized context
-* high-density study material
-* compressed AI-ready prompts
+| Format   | Status |
+| -------- | ------ |
+| TXT      | ✅      |
+| PDF      | ✅      |
+| Markdown | ✅      |
+| Python   | ✅      |
 
 ---
 
-## Developers
+# Benchmarks
 
-Upload:
+## Domain Benchmarks
 
-* source files
-* documentation
-* configs
+| Query                 | Token Reduction |
+| --------------------- | --------------- |
+| JWT Authentication    | 72.44%          |
+| Neural Networks       | 65.22%          |
+| Database Transactions | 63.10%          |
+| REST APIs             | 61.24%          |
 
-Generate:
+### Average Token Reduction
 
-* debugging-focused context
-* architecture-aware summaries
-* optimized prompts for coding agents
+**65.5%**
 
----
+### Average Latency
 
-## Researchers
+**470 ms**
 
-Upload:
+### Typical Output Size
 
-* papers
-* datasets
-* notes
-
-Generate:
-
-* query-focused synthesis
-* compressed research context
-* efficient LLM workflows
+60–70 tokens
 
 ---
 
-# Tech Stack
+# Installation
 
-## Backend
+Clone the repository:
 
-* FastAPI
-* Python
+```bash
+git clone <repository-url>
+cd token-engine
+```
 
-## NLP & AI
+Install dependencies:
 
-* Sentence Transformers
-* tiktoken
-
-## Processing
-
-* Tree-sitter
-* NumPy
-
-## Retrieval & Ranking
-
-* FAISS
-* Cosine Similarity
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-# API Example
+# Docker
 
-## Request
+Build:
+
+```bash
+docker build -t file-optimizer .
+```
+
+Run:
+
+```bash
+docker run --rm --name file-opt -p 8000:8000 file-optimizer
+```
+
+---
+
+# API
+
+Endpoint:
+
+```
+POST /file_opt
+```
+
+---
+
+## Example Request
 
 ```json
 {
-  "agent_task": "Find authentication routing bug",
+  "agent_task": "jwt authentication and password hashing",
   "target_compression_ratio": 0.3,
+  "max_context_tokens": 100,
   "files": [
     {
-      "filename": "auth.py",
-      "content": "def login(): pass",
-      "type": "py"
+      "file_path": "benchmark/auth.txt",
+      "type": "txt"
     }
   ]
 }
@@ -164,32 +250,210 @@ Generate:
 
 ---
 
-# Current Status
+## Example Response
 
-## Completed
-
-* FastAPI backend setup
-* File ingestion
-* Token counting
-* Chunking pipeline
-* Request validation
-
-## In Progress
-
-* Embeddings
-* Semantic ranking
-* Query-aware compression
-* Context optimization engine
+```json
+{
+  "metrics": {
+    "tokens_before": 225,
+    "tokens_after": 62,
+    "token_reduction_percent": 72.44
+  },
+  "optimized_context": "..."
+}
+```
 
 ---
 
-# Vision
+# Project Structure
 
-Token Engine aims to become a lightweight infrastructure layer for AI systems that need:
+```
+app/
+├── api/
+├── chunking/
+├── compression/
+├── embeddings/
+├── ingestion/
+├── ranking/
+├── utils/
 
-* efficient context handling
-* reduced token costs
-* preserved reasoning quality
-* scalable multi-document processing
+benchmark/
+tests/
+Dockerfile
+main.py
+requirements.txt
+```
 
-Instead of maximizing context size, the goal is to maximize information density per token.
+---
+
+# Design Principles
+
+## Relevance Over Aggressive Compression
+
+Compression should never destroy meaning.
+
+If the entire file is relevant, the engine preserves it.
+
+---
+
+## Simplicity First
+
+No unnecessary infrastructure.
+
+No mandatory databases.
+
+No vendor lock-in.
+
+---
+
+## Modular by Design
+
+Every component can evolve independently.
+
+Future improvements do not require rewriting the entire system.
+
+---
+
+## Agent-Oriented
+
+Built for AI workflows rather than traditional search systems.
+
+---
+
+# Use Cases
+
+### AI Agents
+
+Reduce context before invoking LLMs.
+
+### RAG Pipelines
+
+Compress retrieved documents.
+
+### Documentation Systems
+
+Send only relevant sections.
+
+### Research Assistants
+
+Focus on task-specific information.
+
+### Developer Tools
+
+Optimize source files and notes.
+
+### Multi-File Context Management
+
+Combine information from multiple files while respecting token budgets.
+
+---
+
+# Why File Optimizer?
+
+Unlike traditional retrieval systems that focus on storage, File Optimizer focuses on consumption.
+
+Its goal is not to store more information.
+
+Its goal is to send less information while preserving meaning.
+
+This makes File Optimizer an ideal companion for:
+
+* OpenAI
+* Anthropic
+* Gemini
+* Local LLMs
+* Agent frameworks
+* RAG pipelines
+
+---
+
+# Roadmap
+
+---
+
+## Version 1.0
+
+Core Engine
+
+* Multi-format support
+* Semantic ranking
+* Token budgeting
+* Deduplication
+* Docker support
+* Benchmark suite
+
+---
+
+## Version 1.1
+
+Quality Improvements
+
+* Better overlap handling
+* Similarity threshold selection
+* Embedding caching
+* Improved Markdown chunking
+
+---
+
+## Version 2.0
+
+Agent Ecosystem
+
+* LangChain integration
+* CrewAI integration
+* OpenAI Agents SDK support
+* Batch optimization
+
+---
+
+## Version 3.0
+
+Advanced Context Management
+
+* Hybrid retrieval
+* Vector database support
+* Memory layers
+* Incremental context updates
+
+---
+
+## Version 4.0
+
+Distributed Context Infrastructure
+
+* MCP server
+* Streaming support
+* Context orchestration
+* Multi-agent optimization
+
+---
+
+# Contributing
+
+Contributions are welcome.
+
+Whether you're improving chunking, adding new file formats, optimizing ranking algorithms, or enhancing integrations, every contribution helps push the project forward.
+
+Please open an issue or submit a pull request.
+
+---
+
+# Philosophy
+
+Context windows are valuable.
+
+Not everything deserves to be sent to the model.
+
+The future of AI systems is not bigger prompts.
+
+The future is smarter context.
+
+---
+
+# License
+
+MIT License.
+
+---
+
+## Built for AI agents, researchers, and developers who want smarter context—not bigger prompts.
