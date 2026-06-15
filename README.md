@@ -1,5 +1,5 @@
 ﻿# File Optimizer
-
+> 60-72% token reduction | Sub-second latency | TXT, PDF, MD, Python support
 > Semantic context compression for AI agents and LLM applications.
 
 File Optimizer is a lightweight, task-aware context optimization engine that reduces token consumption while preserving the information that actually matters.
