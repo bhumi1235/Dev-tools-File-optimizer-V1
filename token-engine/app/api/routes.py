@@ -17,6 +17,7 @@ from app.compression.selector import select_chunks_by_budget
 from app.compression.context_builder import build_context
 from app.compression.deduplicator import remove_duplicates
 from app.compression.file_compressor import compress_file
+from app.llm.llm_client import generate_response
 
 
 router = APIRouter()
@@ -140,10 +141,11 @@ def optimize_context(data: OptimizeRequest):
                 })
 
         compressed_file_chunks = compress_file(
-            file_chunks,
-            data.agent_task,
-            data.max_context_tokens // len(data.files)
-        )
+    file_chunks,
+    data.agent_task,
+    data.max_context_tokens // len(data.files)
+)
+        
 
         compressed_chunks.extend(
             compressed_file_chunks
@@ -193,6 +195,11 @@ def optimize_context(data: OptimizeRequest):
         selected_chunks
     )
 
+    response = generate_response(
+    data.agent_task,
+    optimized_context
+)
+
     tokens_after = count_tokens(
     optimized_context
 )
@@ -228,6 +235,8 @@ def optimize_context(data: OptimizeRequest):
         },
 
         "top_chunks": ranked_chunks[:5],
+
+        "response": response,
 
         "optimized_context": optimized_context
     }
