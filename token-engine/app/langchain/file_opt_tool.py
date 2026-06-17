@@ -12,6 +12,8 @@ from app.compression.selector import select_chunks_by_budget
 from app.compression.deduplicator import remove_duplicates
 from app.compression.context_builder import build_context
 from app.llm.llm_client import generate_response
+from app.core.optimizer import optimize
+
 
 
 class FileOptimizerTool(BaseTool):
@@ -23,123 +25,19 @@ class FileOptimizerTool(BaseTool):
     )
 
     def _run(
-        self,
+    self,
+    agent_task,
+    files,
+    max_context_tokens=2000
+):
+
+        result = optimize(
         agent_task,
         files,
-        max_context_tokens=2000
-    ):
+        max_context_tokens
+    )
 
-        compressed_chunks = []
-
-        for file in files:
-
-            if file["type"] == "pdf":
-
-                content = read_pdf(
-                    file["file_path"]
-                )
-
-            else:
-
-                content = read_file(
-                    file["file_path"]
-                )
-
-            if file["type"] == "md":
-
-                chunks = chunk_markdown(
-                    content
-                )
-
-            elif file["type"] == "py":
-
-                chunks = chunk_python_code(
-                    content
-                )
-
-            else:
-
-                chunks = chunk_text(
-                    content
-                )
-
-            file_chunks = []
-
-            for chunk in chunks:
-
-                if isinstance(chunk, dict):
-
-                    chunk["source_file"] = file["file_path"]
-                    chunk["source_type"] = file["type"]
-
-                    file_chunks.append(
-                        chunk
-                    )
-
-                else:
-
-                    file_chunks.append(
-                        {
-                            "heading": None,
-                            "content": chunk,
-                            "source_file": file["file_path"],
-                            "source_type": file["type"]
-                        }
-                    )
-
-            compressed_file_chunks = compress_file(
-                file_chunks,
-                agent_task,
-                max_context_tokens // len(files)
-            )
-
-            compressed_chunks.extend(
-                compressed_file_chunks
-            )
-
-        query_embedding = embed_text(
-            agent_task
-        )
-
-        ranked_chunks = []
-
-        for chunk in compressed_chunks:
-
-            chunk_embedding = embed_text(
-                chunk["content"]
-            )
-
-            score = cosine_similarity(
-                query_embedding,
-                chunk_embedding
-            )
-
-            ranked_chunks.append(
-                {
-                    **chunk,
-                    "score": float(score)
-                }
-            )
-
-        selected_chunks, _ = select_chunks_by_budget(
-            ranked_chunks,
-            max_context_tokens
-        )
-
-        selected_chunks = remove_duplicates(
-            selected_chunks
-        )
-
-        optimized_context = build_context(
-            selected_chunks
-        )
-
-        response = generate_response(
-            agent_task,
-            optimized_context
-        )
-
-        return response
+        return result["response"]
 
     async def _arun(
         self,
