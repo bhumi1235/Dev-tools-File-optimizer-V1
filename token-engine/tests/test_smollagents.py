@@ -1,0 +1,15 @@
+from app.agents.smolagents_tool import FileOptimizerSmolTool
+
+tool = FileOptimizerSmolTool()
+
+response = tool.run(
+    "Explain the authentication system.",
+    [
+        {
+            "file_path": "data/auth.txt",
+            "type": "txt"
+        }
+    ]
+)
+
+print(response)
