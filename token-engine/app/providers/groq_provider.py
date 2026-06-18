@@ -23,15 +23,20 @@ class GroqProvider(BaseProvider):
     def generate_response(
         self,
         task,
-        context
+        context,
+        strategy
     ):
 
         prompt = f"""
+You are an assistant that answers only using the provided context.
+
 Task:
 {task}
 
 Context:
 {context}
+
+Answer:
 """
 
         response = self.client.chat.completions.create(

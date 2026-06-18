@@ -1,4 +1,5 @@
 from app.llm.llm_client import generate_response
+from app.planner.strategies import RETRIEVAL
 
 
 context = """
@@ -12,7 +13,8 @@ instruction = "How should passwords be stored?"
 
 response = generate_response(
     instruction,
-    context
+    context,
+    RETRIEVAL
 )
 
 print(response)

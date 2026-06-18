@@ -1,8 +1,33 @@
+Authentication Guide
+
 Authentication Flow
 
-The login service validates user credentials using email and password. 
-After successful verification, a JWT token is generated and attached to the response. 
-Middleware checks token validity on every protected route. 
-Session expiration is handled through token expiry timestamps. 
-Passwords are hashed using bcrypt before being stored in the database. 
-Authentication failures return unauthorized responses and prevent access to protected resources.
+The login service validates user credentials using email and password. After successful verification, a JWT token is generated and attached to the response. Middleware checks token validity on every protected route. Session expiration is handled through token expiry timestamps.
+
+Password Security
+
+Passwords are hashed using bcrypt before being stored in the database. Password hashing prevents passwords from being stored in plain text. Bcrypt adds computational cost and improves resistance against brute force attacks. Password hashing protects user credentials from unauthorized access. Password hashing protects user credentials from unauthorized access. Password hashing protects user credentials from unauthorized access.
+
+Authorization
+
+Role-based access control determines which resources a user can access. Admin users have elevated privileges. Normal users are restricted to their own resources. Unauthorized requests return HTTP 403 responses. Unauthorized requests return HTTP 403 responses. Unauthorized requests return HTTP 403 responses.
+
+Refresh Tokens
+
+Refresh tokens are used to obtain new access tokens without forcing users to log in again. Refresh tokens improve user experience by reducing repeated authentication. Refresh tokens improve user experience by reducing repeated authentication. Refresh tokens improve user experience by reducing repeated authentication.
+
+Database Connections
+
+Database connections are managed through connection pools. Queries are optimized using indexes to improve performance. Transactions ensure consistency and prevent data corruption. Transactions ensure consistency and prevent data corruption. Transactions ensure consistency and prevent data corruption.
+
+Middleware
+
+Middleware checks JWT token validity before allowing access to protected routes. Middleware rejects expired tokens. Middleware rejects invalid tokens. Middleware rejects expired tokens. Middleware rejects invalid tokens. Middleware rejects expired tokens. Middleware rejects invalid tokens.
+
+Machine Learning Monitoring
+
+Model performance is evaluated using accuracy, precision, recall and F1 score. Models are retrained periodically using updated datasets. Classification models predict categories while regression models predict numerical values. Classification models predict categories while regression models predict numerical values. Classification models predict categories while regression models predict numerical values.
+
+Audit Logging
+
+Authentication failures are logged for security monitoring purposes. Login attempts are tracked to detect suspicious activity. Login attempts are tracked to detect suspicious activity. Login attempts are tracked to detect suspicious activity.

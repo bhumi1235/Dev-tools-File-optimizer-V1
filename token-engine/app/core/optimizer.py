@@ -17,6 +17,8 @@ from app.embeddings.embedder import embed_text
 from app.ranking.scorer import cosine_similarity
 
 from app.llm.llm_client import generate_response
+from app.planner.planner import plan_context
+
 
 
 def optimize(
@@ -26,6 +28,12 @@ def optimize(
 ):
 
     start_time = time.time()
+
+    plan = plan_context(
+        agent_task,
+        files
+    )
+
 
     total_tokens = 0
 
@@ -101,34 +109,90 @@ def optimize(
             compressed_file_chunks
         )
 
-    query_embedding = embed_text(
+    ranked_chunks = []
+
+    if plan["use_embeddings"]:
+
+        query_embedding = embed_text(
         agent_task
     )
 
-    ranked_chunks = []
+        for chunk in compressed_chunks:
 
-    for chunk in compressed_chunks:
-
-        chunk_embedding = embed_text(
+            chunk_embedding = embed_text(
             chunk["content"]
         )
 
-        score = cosine_similarity(
+            score = cosine_similarity(
             query_embedding,
             chunk_embedding
         )
 
-        ranked_chunks.append(
+            if plan["bias_code"]:
+
+                content = chunk["content"]
+
+                if (
+                "def " in content
+                or "class " in content
+                or "import " in content
+            ):
+
+                    score += 0.2
+
+            ranked_chunks.append(
             {
                 **chunk,
                 "score": float(score)
             }
         )
 
+    else:
+
+        ranked_chunks = [
+
+        {
+            **chunk,
+            "score": 1.0
+        }
+
+        for chunk in compressed_chunks
+    ]
+
     selected_chunks, _ = select_chunks_by_budget(
         ranked_chunks,
         max_context_tokens
     )
+
+    if plan["cross_file"]:
+
+        seen_files = set()
+
+        diverse_chunks = []
+
+        for chunk in selected_chunks:
+
+            source_file = chunk["source_file"]
+
+            if source_file not in seen_files:
+
+                diverse_chunks.append(
+                chunk
+            )
+
+                seen_files.add(
+                source_file
+            )
+
+        for chunk in selected_chunks:
+
+            if chunk not in diverse_chunks:
+
+                diverse_chunks.append(
+                chunk
+            )
+
+        selected_chunks = diverse_chunks
 
     before_dedup = len(
         selected_chunks
@@ -152,8 +216,10 @@ def optimize(
 
     response = generate_response(
         agent_task,
-        optimized_context
-    )
+        optimized_context,
+        plan["strategy"]
+        )    
+    
 
     execution_time_ms = round(
         (time.time() - start_time) * 1000,
