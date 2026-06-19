@@ -1,5 +1,12 @@
+"""
+CrewAI integration for the Token Engine optimizer.
+"""
+
 from app.core.optimizer import optimize
 
+"""
+Enables CrewAI agents to use Token Engine for context optimization.
+"""
 
 class FileOptimizerCrewTool:
 

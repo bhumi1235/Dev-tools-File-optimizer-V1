@@ -1,3 +1,9 @@
+"""
+Groq provider implementation.
+
+Uses Groq-hosted models for response generation.
+"""
+
 import os
 
 from openai import OpenAI
@@ -19,6 +25,10 @@ class GroqProvider(BaseProvider):
             ),
             base_url="https://api.groq.com/openai/v1"
         )
+
+    """
+    Generate responses using the configured Groq model.
+    """
 
     def generate_response(
     self,

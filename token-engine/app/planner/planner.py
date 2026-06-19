@@ -1,3 +1,10 @@
+"""
+Task-aware planning module.
+
+Determines retrieval strategy based on the user task
+and file characteristics.
+"""
+
 from app.planner.strategies import (
     RETRIEVAL,
     SUMMARIZATION,
@@ -8,6 +15,12 @@ from app.planner.strategies import (
 
 from typing import Any
 
+"""
+Generate a retrieval plan for a task.
+
+Supports retrieval, summarization,
+code-focused, and multi-file strategies.
+"""
 
 def plan_context(
     task: str,

@@ -1,6 +1,11 @@
+"""
+OpenAI Agents integration for the Token Engine optimizer.
+"""
 from app.core.optimizer import optimize
 
-
+"""
+Enables OpenAI Agents to use Token Engine for context optimization.
+"""
 class FileOptimizerAgentTool:
 
     def run(

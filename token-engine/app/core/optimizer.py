@@ -1,3 +1,12 @@
+"""
+Core optimization engine for Token Engine.
+
+This module orchestrates the complete context optimization
+pipeline including file ingestion, chunking, compression,
+semantic ranking, deduplication, context construction,
+and response generation.
+"""
+
 import time
 
 from app.utils.token_counter import count_tokens
@@ -20,6 +29,16 @@ from app.llm.llm_client import generate_response
 from app.planner.planner import plan_context
 from typing import Any
 
+"""
+Optimize file context for a given task.
+
+Processes input files, applies task-aware planning,
+compresses context within token budgets, and generates
+responses using the configured provider.
+
+Returns metrics, debugging information, top-ranked chunks,
+and the final optimized context.
+"""
 
 def optimize(
     agent_task: str,

@@ -1,7 +1,18 @@
+"""
+Semantic compression module.
+
+Ranks chunks using embeddings and selects
+the most relevant context within token limits.
+"""
+
 from app.embeddings.embedder import embed_text
 from app.ranking.scorer import cosine_similarity
 from app.compression.selector import select_chunks_by_budget
 
+"""
+Compress file chunks using semantic similarity
+and token budget constraints.
+"""
 
 def compress_file(chunks, task, max_tokens):
 

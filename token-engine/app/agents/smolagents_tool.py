@@ -1,6 +1,12 @@
+"""
+SmolAgents integration for the Token Engine optimizer.
+"""
+
 from app.core.optimizer import optimize
 
-
+"""
+Enables SmolAgents to use Token Engine for context optimization.
+"""
 class FileOptimizerSmolTool:
 
     def run(
