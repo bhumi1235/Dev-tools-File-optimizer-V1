@@ -18,14 +18,14 @@ from app.ranking.scorer import cosine_similarity
 
 from app.llm.llm_client import generate_response
 from app.planner.planner import plan_context
-
+from typing import Any
 
 
 def optimize(
-    agent_task,
-    files,
-    max_context_tokens=2000
-):
+    agent_task: str,
+    files: list[dict[str, Any]],
+    max_context_tokens: int = 2000
+) -> dict[str, Any]:
 
     start_time = time.time()
 

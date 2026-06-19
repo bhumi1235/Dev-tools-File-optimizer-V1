@@ -21,11 +21,11 @@ class GroqProvider(BaseProvider):
         )
 
     def generate_response(
-        self,
-        task,
-        context,
-        strategy
-    ):
+    self,
+    task: str,
+    context: str,
+    strategy: str
+) -> str:
 
         prompt = f"""
 You are an assistant that answers only using the provided context.

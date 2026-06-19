@@ -5,10 +5,10 @@ provider = GroqProvider()
 
 
 def generate_response(
-    task,
-    context,
-    strategy
-):
+    task: str,
+    context: str,
+    strategy: str
+) -> str:
 
     return provider.generate_response(
         task,

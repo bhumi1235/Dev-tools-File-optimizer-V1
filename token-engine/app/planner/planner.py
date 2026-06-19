@@ -6,10 +6,13 @@ from app.planner.strategies import (
 )
 
 
+from typing import Any
+
+
 def plan_context(
-    task,
-    files
-):
+    task: str,
+    files: list[dict[str, Any]]
+) -> dict[str, Any]:
 
     task = task.lower()
 

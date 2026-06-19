@@ -6,7 +6,8 @@ class BaseProvider(ABC):
     @abstractmethod
     def generate_response(
         self,
-        task,
-        context
-    ):
+        task: str,
+        context: str,
+        strategy: str
+    ) -> str:
         pass
