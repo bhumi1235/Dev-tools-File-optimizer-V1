@@ -1,17 +1,24 @@
 from app.chunking.chunker import chunk_text
 
 
-sample = """
+def test_chunk_text_returns_chunks():
+
+    sample = """
 Authentication Flow
 
-The login service validates user credentials using email and password. After successful verification, a JWT token is generated and attached to the response. Middleware checks token validity on every protected route. Session expiration is handled through token expiry timestamps. Passwords are hashed using bcrypt before being stored in the database. Authentication failures return unauthorized responses and prevent access to protected resources.
+The login service validates user credentials.
+JWT tokens are generated after successful verification.
 """
 
+    chunks = chunk_text(
+        sample
+    )
 
-chunks = chunk_text(sample)
+    assert isinstance(
+        chunks,
+        list
+    )
 
-for i, chunk in enumerate(chunks):
-
-    print()
-    print("Chunk", i + 1)
-    print(chunk)
+    assert len(
+        chunks
+    ) > 0

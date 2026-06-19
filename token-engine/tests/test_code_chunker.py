@@ -1,32 +1,28 @@
 from app.chunking.code_chunker import chunk_python_code
 
 
-sample = """
-class User:
+def test_code_chunker_returns_chunks():
 
-    def __init__(self):
-        pass
-
-
+    sample = """
 def authenticate():
 
-    token = "abc"
-
-    return token
-
-
-def logout():
-
     return True
+
+
+class User:
+
+    pass
 """
 
+    chunks = chunk_python_code(
+        sample
+    )
 
-chunks = chunk_python_code(
-    sample
-)
+    assert isinstance(
+        chunks,
+        list
+    )
 
-for i, chunk in enumerate(chunks):
-
-    print()
-    print("Chunk", i + 1)
-    print(chunk)
+    assert len(
+        chunks
+    ) > 0

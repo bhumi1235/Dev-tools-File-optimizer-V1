@@ -1,31 +1,27 @@
 from app.chunking.markdown_chunker import chunk_markdown
 
 
-sample = """
-# Authentication Notes
+def test_markdown_chunker_returns_chunks():
 
-## JWT
+    sample = """
+# Authentication
 
-JWT tokens are used to maintain stateless authentication.
+JWT tokens are used for stateless authentication.
 
-## Password Security
+## Passwords
 
-Passwords should be hashed using bcrypt before storage.
-
-## Sessions
-
-Middleware validates tokens on protected routes.
-
-# Machine Learning
-
-Neural networks learn through backpropagation.
+Passwords are hashed using bcrypt.
 """
 
+    chunks = chunk_markdown(
+        sample
+    )
 
-chunks = chunk_markdown(sample)
+    assert isinstance(
+        chunks,
+        list
+    )
 
-for i, chunk in enumerate(chunks):
-
-    print()
-    print(f"Chunk {i+1}")
-    print(chunk)
+    assert len(
+        chunks
+    ) > 0
