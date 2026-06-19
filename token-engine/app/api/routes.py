@@ -38,3 +38,17 @@ def optimize_context(
     )
 
     return result
+
+@router.get("/health")
+def health_check():
+
+    return {
+        "status": "healthy"
+    }
+
+@router.get("/version")
+def version():
+
+    return {
+        "version": "1.5"
+    }
