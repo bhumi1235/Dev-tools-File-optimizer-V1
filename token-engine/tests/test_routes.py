@@ -1,4 +1,4 @@
-from app.routes.routes import router
+from app.api.routes import router
 
 
 def test_router_exists():
