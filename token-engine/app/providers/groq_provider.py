@@ -19,23 +19,27 @@ class GroqProvider(BaseProvider):
 
     def __init__(self):
 
-        self.client = OpenAI(
-            api_key=os.getenv(
-                "GROQ_API_KEY"
-            ),
-            base_url="https://api.groq.com/openai/v1"
-        )
+        self.client = None
 
     """
     Generate responses using the configured Groq model.
     """
 
     def generate_response(
-    self,
-    task: str,
-    context: str,
-    strategy: str
-) -> str:
+        self,
+        task: str,
+        context: str,
+        strategy: str
+    ) -> str:
+
+        if self.client is None:
+
+            self.client = OpenAI(
+                api_key=os.getenv(
+                    "GROQ_API_KEY"
+                ),
+                base_url="https://api.groq.com/openai/v1"
+            )
 
         prompt = f"""
 You are an assistant that answers only using the provided context.
