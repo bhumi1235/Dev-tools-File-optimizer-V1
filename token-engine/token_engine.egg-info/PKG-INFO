@@ -1,0 +1,17 @@
+Metadata-Version: 2.4
+Name: token-engine
+Version: 1.6.0
+Summary: Framework-agnostic context optimization engine for LLM agents.
+Author: Bhumika Saxena
+Requires-Python: >=3.10
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: python-dotenv
+Requires-Dist: openai
+Requires-Dist: sentence-transformers
+Requires-Dist: numpy
+Requires-Dist: scikit-learn
+Requires-Dist: pypdf
+Requires-Dist: langchain
+Requires-Dist: crewai
+Requires-Dist: smolagents

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "token-engine"
+version = "1.6.0"
+description = "Framework-agnostic context optimization engine for LLM agents."
+authors = [
+{name = "Bhumika Saxena"}
+]
+requires-python = ">=3.10"
+
+dependencies = [
+"fastapi",
+"uvicorn",
+"python-dotenv",
+"openai",
+"sentence-transformers",
+"numpy",
+"scikit-learn",
+"pypdf",
+"langchain",
+"crewai",
+"smolagents"
+]
+
+[tool.setuptools]
+packages = ["app"]
