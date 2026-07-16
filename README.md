@@ -15,7 +15,7 @@ Most LLM pipelines blindly stuff entire documents, repositories, or conversation
 
 It intelligently ingests your files, chunks them, embeds them semantically, ranks them against your task, and delivers a compressed, deduplicated, task-relevant context to the LLM — all within your token budget.
 
-**65.5% average token reduction. 470ms average latency.**
+**Average token reduction of 65.5%, with substantially higher reductions observed on large technical documents.**
 
 ---
 
